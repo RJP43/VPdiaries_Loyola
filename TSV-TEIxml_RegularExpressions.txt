@@ -1,0 +1,34 @@
+As an example, this document will record the count of values found for each regular expression when run on the Volume 3, Page 218 TSV file. 
+
+First need to check for reserved XML characters. 
+    Find: & (V3_P218 - Found 1)
+    Replace: &amp;
+    Find: > (V3_P218 - Found 0)
+    Replace: &gt;
+    Find: < (V3_P218 - Found 0)
+    Replace: &lt;
+
+At this point, save the file as .xml so as not to accidently save over the TSV file. File naming convention: Book#_Page#.xml
+Close the file and open the .xml file; begin working on .xml file.
+
+Next need to capture every line of the document because these correspond with a line of text in the diary.
+    Find: (\n) (V3_P218 - Found 41)
+    Replace: </p>\1<p> 
+This is the close-open technique where you use a pattern to insert the closing tag of the previous element and open a new element following. Note: this will cause the first thing (line in our case) that you want surrounded in the element (<p>) in our case to be missing the start tag and the last thing (again line in our case) to be missing a closing tag. You will need to go in and add those manually so as to have a properly nested structure. While adding tags go ahead and include a <body> element around the entire contents of the document. By placing all of the contents in a single element you will be able to see, if using oXygen, whether or not you have well-formed XML. Other pointers: turn on the feature so you can see the spaces, tabs, line returns ... these are useful markers to grab onto with the patterns and it is helpful to be able to see them. With that being said you want to make sure that when you add any element, outside of what you are grabbing in the pattern find/replace that you don't truncate any tabs, spaces, etc. by placing an element tag before or in place of those markers. So for the Volume 3, Page 218 example when I added the closing </p> and </body> element I was careful to include the final tab character within the element by placing the element directly after the tab character. 
+
+Next we need to remove the erroneous tab characters that are appearing at the beginning and end of lines. This is because we only need to be sure to capture the tabs that are separating the text that was transcribed from the left ("date") column and not the instances where that column was blank. 
+    Find: (<p>)\t (V3_P218 - Found 36)
+    Replace: \1
+    Find: \t(</p>) (V3_P218 - Found 4)
+    Replace: \1
+
+Next we grab the tab characters that matter because they are the indicators of when text was transcribed from a the left column of the diary.
+    Find: (<p>)(.+?)\t (V3_P218 - Found 2)
+    Repalce: \1<label>\2</label>
+
+Since we now have the captured the lines and especially the lines that indicate a separation in diary entries we can go in and group the diary entries.
+    Find: (<p><label>) (V3_P218 - Found 2)
+    Replace: </div>\n<div type="entry">\1
+Just like above here we are using the close-open technique and that means that the first and last entry will need adjusted. Be sure to place the entry division tags within the <body> tags, but outside of the <p> tags holding our individual lines. Remember you are creating the document structure so you have to think about what makes sense to be inside of eachother. Here it makes sense to include entries inside of the page's body, and to have the individual lines of the entries sitting within the entries. You could also think of <label> as a sibling to <p> as in they sit side by side eachother in an entry division just like they sit side by side in the manuscript text. 
+
+Now that we have captured all of the large structural portions of the document we can move onto the smaller instances of pseudo-markup intentionally included by the transcriber as a part of following the transcription guidelines. These crafted instances of pseudo-markup will prove as valuable markers or handle-bars to grab onto with the regular expression patterns. 
