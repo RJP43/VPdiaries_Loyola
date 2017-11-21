@@ -13,42 +13,93 @@ Close the file and open the .xml file; begin working on .xml file.
 
 Next need to capture every line of the document because these correspond with a line of text in the diary.
     Find: (\n) (V3_P218 - Found 41)
-    Replace: </p>\1<p> | \1<lb/>
-This is the close-open technique where you use a pattern to insert the closing tag of the previous element and open a new element following. Note: this will cause the first thing (line in our case) that you want surrounded in the element (<p>) in our case to be missing the start tag and the last thing (again line in our case) to be missing a closing tag. You will need to go in and add those manually so as to have a properly nested structure. While adding tags go ahead and include a <body> element around the entire contents of the document. By placing all of the contents in a single element you will be able to see, if using oXygen, whether or not you have well-formed XML. Other pointers: turn on the feature so you can see the spaces, tabs, line returns ... these are useful markers to grab onto with the patterns and it is helpful to be able to see them. With that being said you want to make sure that when you add any element, outside of what you are grabbing in the pattern find/replace that you don't truncate any tabs, spaces, etc. by placing an element tag before or in place of those markers. So for the Volume 3, Page 218 example when I added the closing </p> and </body> element I was careful to include the final tab character within the element by placing the element directly after the tab character. 
+    Replace: \1<lb/>
 
-Next we need to remove the erroneous tab characters that are appearing at the beginning and end of lines. This is because we only need to be sure to capture the tabs that are separating the text that was transcribed from the left ("date") column and not the instances where that column was blank. 
-    Find: (<p>)\t | (<lb/>)\t (V3_P218 - Found 36)
+At this point go ahead and include a <body> element around the entire contents of the document. By placing all of the contents in a single element you will be able to see, if using oXygen, whether or not you have well-formed XML. Other pointers: turn on the feature so you can see the spaces, tabs, line returns ... these are useful markers to grab onto with the patterns and it is helpful to be able to see them as you construct the patterns. With that being said you want to make sure that when you add any element, outside of what you are grabbing in the pattern find/replace that you don't truncate any tabs, spaces, etc. by placing an element tag before or in place of those markers. So for the Volume 3, Page 218 example when I added the closing </body> element I was careful to include the final tab character within the element by placing the element closing tag directly after the tab character. 
+
+Next we need to remove the erroneous tab characters that are appearing at the beginning and end of lines. This is because we only need to capture the tabs that are separating the text that was transcribed from the left ("date") column and not the instances where that column or any column after the main entry column were blank. 
+    Find: (<lb/>)\t (V3_P218 - Found 36)
     Replace: \1
-    Find: \t(</p>) | \t(\n) (V3_P218 - Found 4) | (V3_P218 - Found 3)
+    Find: \t(\n) (V3_P218 - Found 3)
     Replace: \1
 
-Next we grab the tab characters that matter because they are the indicators of when text was transcribed from a the left column of the diary.
-    Find: (<p>)(.+?)\t | (<lb/>)(.+?)\t (V3_P218 - Found 2) | (V3_P218 - Found 3)
+Next we grab the tab characters that matter because they are the indicators of when text was transcribed from the left column of the diary.
+    Find: (<lb/>)(.+?)\t (V3_P218 - Found 3)
     Repalce: \1<label>\2</label>
 
 Since we now have the captured the lines and especially the lines that indicate a separation in diary entries we can go in and group the diary entries.
-    Find: (<p><label>) (V3_P218 - Found 2) | (<lb/><label>) (V3_P218 - Found 3)
+    Find: (<lb/><label>) (V3_P218 - Found 3)
     Replace: </div>\n<div type="entry">\1
-Just like above here we are using the close-open technique and that means that the first and last entry will need adjusted. Be sure to place the entry division tags within the <body> tags, but outside of the <p> tags holding our individual lines. Remember you are creating the document structure so you have to think about what makes sense to be inside of eachother. Here it makes sense to include entries inside of the page's body, and to have the individual lines of the entries sitting within the entries. You could also think of <label> as a sibling to <p> as in they sit side by side eachother in an entry division just like they sit side by side in the manuscript text. 
+This is the close-open technique where you use a pattern to insert the closing tag of the previous element and open a new element following. Note: this will cause the first thing (diary entry in our case) that you want surrounded in the element (<div> in our case) to be missing the start tag and the last thing (again diary entry in our case) to be missing a closing tag. You will need to go in and add those manually so as to have a properly nested structure. Be sure to place the entry division tags within the <body> tags, but outside of any other tags (like the </lb> markers use to indicate line beginnings). Remember you are creating the document structure so you have to think about what makes sense to be inside of eachother. Here it makes sense to include entries inside of the page's body, and to have the individual lines of the entries sitting within the entries. You could should think of <label> as a sibling to <lb>; they sit side by side eachother in an entry division just like they sit side by side in the manuscript text. 
 
-Now that we have captured all of the large structural portions of the document we can move onto the smaller instances of pseudo-markup intentionally included by the transcriber as a part of following the transcription guidelines. These crafted instances of pseudo-markup will prove as valuable markers or handle-bars to grab onto with the regular expression patterns. 
+Now that we have captured all of the large structural portions of the document we can move onto the smaller instances of pseudo-markup that was intentionally included by the transcriber as a part of following the transcription guidelines. These crafted instances of pseudo-markup will prove as valuable markers or handle-bars to grab onto with future regular expression patterns in this upconversion process. 
 
+Appearance pseudo-markup (indents, centered text, headings, strikethrough, underlined, marked):
+    Find: \[\s*\w{2}\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[sS]ession\s*:\s*(.+?)\s*\] (V3_P218 - Found 0)
+    Replace: <head type="session">\1</head>
+    Find: \[\s*[Ii]ndent\s*\] (V3_P218 - Found 3)
+    Replace: <hi rend="indent"/>
+    Find: \[\s*[Uu]nderline\s*\]\s*(.+)\s*\[\s*/\s*[Uu]nderline\s*\] (V3_P218 - Found 0)
+    Replace: <hi rend="underline">/1</hi>
+    Find: \[\s*[Cc]entered\s*\]\s*(.+)\s*\[\s*/\s*[Cc]entered\s*\] (V3_P218 - Found 1)
+    Replace: <hi rend="centered">\1</hi>
+    Find: \[\s*\w{2}\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[Ss]trikethrough\s*:\s*\((.+?)\)\s*\] (V3_P218 - Found 1)
+    Replace: <del rend="overstrike">\1</del>
+    Find: \[\s*(\w{2})\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[Mm]arked\s*:\s*\((.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <note type="marked" resp="#\1">\2</note>
 
-
-
-
-------
-Let's start with people and places. 
-    Find: \[place\]\s*(.+?)\s*\[/place\] (V3_P218 - Found 1)
+People and places: 
+    Find: \[place\]\s*(.+?)\s*\[/place\] (V3_P218 - Found 2)
+    Replace: <place>\1</place>
+    Find (with Dot matches all on): \[place\]\s*(.+?)\s*\[/place\] (V3_P218 - Found 1)
     Replace: <place>\1</place>
     Find: \[person\]\s*(.+?)\s*\[/person\] (V3_P218 - Found 6)
     Replace: <person>\1</person>
+    Find (with Dot matches all on): \[person\]\s*(.+?)\s*\[/person\] (V3_P218 - Found 0)
+    Replace: <person>\1</person>
 
-Appearance pseudo-markup like indents and centered text.
-    Find: \[\s*indent\s*\] (V3_P218 - Found 3)
-    Replace: <hi rend="indent"/>
-    Find: \[\s*centered\s*\](.+)\[/centered\] (V3_P218 - Found 1)
-    Replace: <hi rend="centered">\1</hi>
+Dates (a bit complicated):
+    Find: \[\s*(\d{4}-\d{2}-\d{2})\s*\] (V3_P218 - Found 1)
+    Replace: <date when="\1"/>
+    Find: \[\s*(\d{4}-\d{2})-xx\s*\] (V3_P218 - Found 2)
+    Replace: <date when="\1"/>
+    Find: \[\s*(\d{4})-xx-xx\s*\] (V3_P218 - Found 0)
+    Replace: <date when="\1"/>
+    Find: \[\s*(\d{4})-xx-xx to (\d{4})-xx-xx\s*\] (V3_P218 - Found 0)
+    Replace: <date from="\1" to="\2"/>
+    Find: \[\s*(\d{4}-\d{2})-xx to (\d{4}-\d{2})-xx\s*\] (V3_P218 - Found 0)
+    Replace: <date from="\1" to="\2"/>
+    Find: \[\s*(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})\s*\] (V3_P218 - Found 0)
+    Replace: <date from="\1" to="\2"/>
 
-Now let's worry about date (a bit complicated).
+Unclear Text and Idiosyncratic Spelling:
+    Find: \[\s*(\w{2})\s*:\s*(\d{4}-\d{2}-\d{2})\s*:\s*[Uu]nclear\s*:\s*(\d{1,})\s*word[s]*\s*:\s*\((.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <unclear unit="word" quantity="\3"><supplied resp="#\1">\4</supplied></unclear>
+    Find: \[\s*(\w{2})\s*:\s*(\d{4}-\d{2}-\d{2})\s*:\s*[Uu]nclear\s*:\s*(\d{1,})\s*word[s]*\s*:\s*\(()\)\s*\] (V3_P218 - Found 0)
+    Replace: <unclear unit="word" quantity="\3"/>
+    Find: \[\s*(\w{2})\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*unclearCap\s*:\s*\((.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <note type="oddCap" resp="#\1">\2</note>
+    Find: \[\s*(\w{2})\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[Ss]pelling\s*:\s*\((.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <note type="spelling" resp="#\1">\2</note>
     
+Hyphenation and Special Characters:
+    Find: \[\s*(\w{2})\s*:\s*(\d{4}-\d{2}-\d{2})\s*:\s*endHyphen\s*:\s*\((.+?)\)\s*\((.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <choice rend="endHyphen"><sic>\4</sic><reg resp="#\1">\3</reg></choice>
+    Find: \[\s*.+?:\s*ditto\s*mark\s*:\s*(.+?)\s*\] (V3_P218 - Found 0)
+    Replace: <choice rend="ditto"><abbr>``</abbr><expan>\1</expan></choice>
+
+Commentary and Map Panel Trancriber Comments:
+    Find: \[\s*(\w{2})\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[sS]upp\s*:\s*[nN]ote\s*:\s*\((.+?)\s*-\s*(.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <note type="supp" resp="#\1">\2 <link>\3</link></note>
+    Find: \[\s*(\w{2})\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[mM]ap\s*:\s*[nN]ote\s*:\s*\((.+?)\s*-\s*(.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <note type="map" resp="#\1">\2 <geo>\3</geo></note>
+
+Transcriber Comments:
+    Find: \[\s*(\w{2})\s*:\s*(\d{4}-\d{2}-\d{2})\s*:\s*[nN]ote\s*:\s*\((.+?)\)\s*\] (V3_P218 - Found 0)
+    Replace: <note type="comment" resp="#\1">\2: \3</note>
+
+Clean-up Top and Bottom
+    Find: (<body>)\s*<div type="entry">\s*\[\s*Transcribed by:\s*(.+?)\s*\(referred to as (\w{2})\)\s*\]\n*\s*<lb/>\s*\[\s*Book\s*(\d),\s*Page\s*(\d{1,3})\s*\] (V3_P218 - Found 1)
+    Replace: \1<head type="main">Volume \4, Page \5</head><note type="transcriber" resp="#\3">\2</note><div type="topMargin">
+    Find: <div type="entry">\s*<lb/>\s*<label>\s*\[\s*\w{2}\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*End of Book\s*\d,\s*Page\s*\d{1,3}\s*\]\s*</label>\s*</div> (V3_P218 - Found 1)
+    Replace: (NOTHING)
