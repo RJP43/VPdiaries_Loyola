@@ -8,7 +8,7 @@ First need to check for reserved XML characters.
     Find: < (V3_P218 - Found 0)
     Replace: &lt;
 
-At this point, save the file as .xml so as not to accidently save over the TSV file. File naming convention: Book#_Page#.xml
+At this point, save the file as .xml so as not to accidentally save over the TSV file. File naming convention: Book#_Page#.xml
 Close the file and open the .xml file; begin working on .xml file.
 
 Next need to capture every line of the document because these correspond with a line of text in the diary.
@@ -25,16 +25,16 @@ Next we need to remove the erroneous tab characters that are appearing at the be
 
 Next we grab the tab characters that matter because they are the indicators of when text was transcribed from the left column of the diary.
     Find: (<lb/>)(.+?)\t (V3_P218 - Found 3)
-    Repalce: \1<label>\2</label>
+    Replace: \1<label>\2</label>
 
 Since we now have the captured the lines and especially the lines that indicate a separation in diary entries we can go in and group the diary entries.
     Find: (<lb/><label>) (V3_P218 - Found 3)
-    Replace: </div>\n<div type="entry">\1
-This is the close-open technique where you use a pattern to insert the closing tag of the previous element and open a new element following. Note: this will cause the first thing (diary entry in our case) that you want surrounded in the element (<div> in our case) to be missing the start tag and the last thing (again diary entry in our case) to be missing a closing tag. You will need to go in and add those manually so as to have a properly nested structure. Be sure to place the entry division tags within the <body> tags, but outside of any other tags (like the </lb> markers use to indicate line beginnings). Remember you are creating the document structure so you have to think about what makes sense to be inside of eachother. Here it makes sense to include entries inside of the page's body, and to have the individual lines of the entries sitting within the entries. You could should think of <label> as a sibling to <lb>; they sit side by side eachother in an entry division just like they sit side by side in the manuscript text. 
+    Replace: </p>\n<p rend="entry">\1
+This is the close-open technique where you use a pattern to insert the closing tag of the previous element and open a new element following. Note: this will cause the first thing (diary entry in our case) that you want surrounded in the element (<p> in our case) to be missing the start tag and the last thing (again diary entry in our case) to be missing a closing tag. You will need to go in and add those manually so as to have a properly nested structure. Be sure to place the entry division tags within the <body> tags, but outside of any other tags (like the </lb> markers use to indicate line beginnings). Remember you are creating the document structure so you have to think about what makes sense to be inside of each other. Here it makes sense to include entries inside of the page's body, and to have the individual lines of the entries sitting within the entries. You could should think of <label> as a sibling to <lb>; they sit side by side each other in an entry division (<p>) just like they sit side by side in the manuscript text. 
 
-Now that we have captured all of the large structural portions of the document we can move onto the smaller instances of pseudo-markup that was intentionally included by the transcriber as a part of following the transcription guidelines. These crafted instances of pseudo-markup will prove as valuable markers or handle-bars to grab onto with future regular expression patterns in this upconversion process. 
+Now that we have captured all of the large structural portions of the document we can move onto the smaller instances of pseudo-markup that was intentionally included by the transcriber as a part of following the transcription guidelines. These crafted instances of pseudo-markup will prove as valuable markers or handle-bars to grab onto with future regular expression patterns in this up-conversion process. 
 
-Appearance pseudo-markup (indents, centered text, headings, strikethrough, underlined, marked):
+Appearance pseudo-markup (indents, centered text, headings, strike-through, underlined, marked):
     Find: \[\s*\w{2}\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[sS]ession\s*:\s*(.+?)\s*\] (V3_P218 - Found 0)
     Replace: <head type="session">\1</head>
     Find: \[\s*[Ii]ndent\s*\] (V3_P218 - Found 3)
@@ -50,13 +50,13 @@ Appearance pseudo-markup (indents, centered text, headings, strikethrough, under
 
 People and places: 
     Find: \[place\]\s*(.+?)\s*\[/place\] (V3_P218 - Found 2)
-    Replace: <place>\1</place>
+    Replace: <placeName>\1</placeName>
     Find (with Dot matches all on): \[place\]\s*(.+?)\s*\[/place\] (V3_P218 - Found 1)
-    Replace: <place>\1</place>
+    Replace: <placeName>\1</placeName>
     Find: \[person\]\s*(.+?)\s*\[/person\] (V3_P218 - Found 6)
-    Replace: <person>\1</person>
+    Replace: <persName>\1</persName>
     Find (with Dot matches all on): \[person\]\s*(.+?)\s*\[/person\] (V3_P218 - Found 0)
-    Replace: <person>\1</person>
+    Replace: <persName>\1</persName>
 
 Dates (a bit complicated):
     Find: \[\s*(\d{4}-\d{2}-\d{2})\s*\] (V3_P218 - Found 1)
@@ -88,7 +88,7 @@ Hyphenation and Special Characters:
     Find: \[\s*.+?:\s*ditto\s*mark\s*:\s*(.+?)\s*\] (V3_P218 - Found 0)
     Replace: <choice rend="ditto"><abbr>``</abbr><expan>\1</expan></choice>
 
-Commentary and Map Panel Trancriber Comments:
+Commentary and Map Panel Transcriber Comments:
     Find: \[\s*(\w{2})\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[sS]upp\s*:\s*[nN]ote\s*:\s*\((.+?)\s*-\s*(.+?)\)\s*\] (V3_P218 - Found 0)
     Replace: <note type="supp" resp="#\1">\2 <link>\3</link></note>
     Find: \[\s*(\w{2})\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*[mM]ap\s*:\s*[nN]ote\s*:\s*\((.+?)\s*-\s*(.+?)\)\s*\] (V3_P218 - Found 0)
@@ -98,8 +98,37 @@ Transcriber Comments:
     Find: \[\s*(\w{2})\s*:\s*(\d{4}-\d{2}-\d{2})\s*:\s*[nN]ote\s*:\s*\((.+?)\)\s*\] (V3_P218 - Found 0)
     Replace: <note type="comment" resp="#\1">\2: \3</note>
 
-Clean-up Top and Bottom
-    Find: (<body>)\s*<div type="entry">\s*\[\s*Transcribed by:\s*(.+?)\s*\(referred to as (\w{2})\)\s*\]\n*\s*<lb/>\s*\[\s*Book\s*(\d),\s*Page\s*(\d{1,3})\s*\] (V3_P218 - Found 1)
-    Replace: \1<head type="main">Volume \4, Page \5</head><note type="transcriber" resp="#\3">\2</note><div type="topMargin">
-    Find: <div type="entry">\s*<lb/>\s*<label>\s*\[\s*\w{2}\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*End of Book\s*\d,\s*Page\s*\d{1,3}\s*\]\s*</label>\s*</div> (V3_P218 - Found 1)
+Now for the final steps - 
+
+Clean-up Top and Bottom:
+    Find: (<body>)\s*<p rend="entry">\s*\[\s*Transcribed by:\s*(.+?)\s*\(referred to as (\w{2})\)\s*\]\n*\s*<lb/>\s*\[\s*Book\s*(\d),\s*Page\s*(\d{1,3})\s*\] (V3_P218 - Found 1)
+    Replace: \1<head type="main">Volume \4, Page \5</head><note type="transcriber" resp="#\3">\2</note><p rend="topMargin">
+    Find: <p rend="entry">\s*<lb/>\s*<label>\s*\[\s*\w{2}\s*:\s*\d{4}-\d{2}-\d{2}\s*:\s*End of Book\s*\d,\s*Page\s*\d{1,3}\s*\]\s*</label>\s*</p> (V3_P218 - Found 1)
     Replace: (NOTHING)
+
+Associate TEI Schema and add TEI header:
+
+Above the body element paste in the following code (Note - The teiHeader portion of the code below should be more fully flushed out with the assistance of the University Archivists using the TEI P5 Guidelines [http://www.tei-c.org/release/doc/tei-p5-doc/en/html/HD.html] in order to properly represent the publication and source information):
+    
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+      <fileDesc>
+         <titleStmt>
+            <title>St. Ignatuis College Vice President's Diaries</title>
+         </titleStmt>
+         <publicationStmt>
+            <distributor>Loyola University Chicago Archives &amp; Special Collections</distributor>
+         </publicationStmt>
+         <sourceDesc>
+            <p><!--Information about the source.--></p>
+         </sourceDesc>
+      </fileDesc>
+  </teiHeader>
+  <text>
+  
+Then go to the end of the file and close </text> and </TEI> after the closing </body> tag. 
+Your file should be well-formed and valid. If working in oXygen, this is indicated by the green square in the top right corner.

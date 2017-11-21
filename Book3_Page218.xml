@@ -1,16 +1,35 @@
-<body><head type="main">Volume 3, Page 218</head><note type="transcriber" resp="#SJ">Sean Jacobson</note><div type="topMargin">
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
+	schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>St. Ignatuis College Vice President's Diaries</title>
+            </titleStmt>
+            <publicationStmt>
+                <distributor>Loyola University Chicago Archives &amp; Special Collections</distributor>
+            </publicationStmt>
+            <sourceDesc>
+                <p><!--Information about the source.--></p>
+            </sourceDesc>
+        </fileDesc>
+    </teiHeader>
+    <text>
+<body><head type="main">Volume 3, Page 218</head><note type="transcriber" resp="#SJ">Sean Jacobson</note>
+<p rend="topMargin">
 <lb/>
 <lb/><hi rend="centered">Museum</hi>
-<lb/>
-</div>
-<div type="entry"><lb/><label><date when="1909-01"/></label><hi rend="indent"/>There has been a feeling that
-<lb/>since <person>Father Schulak's</person> departure
+<lb/></p>
+<p rend="entry"><lb/><label><date when="1909-01"/></label><hi rend="indent"/>There has been a feeling that
+<lb/>since <persName>Father Schulak</persName>'s departure
 <lb/>two or three years ago, perhaps
 <lb/>we are not taking proper care
 <lb/>of the Museums he collected at
 <lb/>so<del rend="overstrike">me</del>  much expense and trouble. We
 <lb/>found that the hides of the animals
-<lb/>in the <place>Natural History Museum</place>
+<lb/>in the <placeName>Natural History Museum</placeName>
 <lb/>might be destroyed by insects &amp;c.
 <lb/>accordingly it was suggested that
 <lb/>as the responsibility for caring
@@ -18,27 +37,27 @@
 <lb/>it might be better to sell it,
 <lb/>especially as we have great need of
 <lb/>money at the present time for
-<lb/>putting up the <place>Academy building
-<lb/>in Rogers Park</place>.
+<lb/>putting up the <placeName>Academy building
+<lb/>in Rogers Park</placeName>.
 <lb/><hi rend="indent"/>accordingly we communicated with
-<lb/><person>Mr. Skiff</person>, the director of the
-<lb/><place>Field Museum</place>, who was very
+<lb/><persName>Mr. Skiff</persName>, the director of the
+<lb/><placeName>Field Museum</placeName>, who was very
 <lb/>courteous and offered to send over
 <lb/>two of his men to place a valuation
-<lb/>on the museum
-</div>
-<div type="entry"><lb/><label>Feb 1 <date when="1909-02-01"/></label><hi rend="indent"/>To-day, Monday, <person>Prof. Corey</person>
+<lb/>on the museum</p>
+<p rend="entry"><lb/><label>Feb 1 <date when="1909-02-01"/></label><hi rend="indent"/>To-day, Monday, <persName>Prof. Corey</persName>
 <lb/>of the Natural History department,
-<lb/>and <person>Dr. Farrington</person> of the geology
+<lb/>and <persName>Dr. Farrington</persName> of the geology
 <lb/>department inspected our museum.
-<lb/><person>Dr. Farrington</person> valued our minerals
+<lb/><persName>Dr. Farrington</persName> valued our minerals
 <lb/>at $5000, including  $500 for the amethyst collection.
-<lb/><person>Prof Corey</person> valued the mammals
+<lb/><persName>Prof Corey</persName> valued the mammals
 <lb/>at $1700, and the birds
 <lb/>at an average of one dollar
 <lb/>each. No valuation was
 <lb/>placed on the shells.
 <lb/>
-<lb/>
-</div>
+<lb/></p>
 </body>
+    </text>
+</TEI>

@@ -22,7 +22,7 @@
                         <a class="nav-link" href="#"><strong>Home</strong></a>
                     </li>
                     <li class="nav-item">
-                       <a class="nav-link" href="#"><strong>About</strong></a>
+                        <a class="nav-link" href="#"><strong>About</strong></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
@@ -41,60 +41,103 @@
                 </form>
             </div>
         </nav>
+        <img src="StaticTimeline.png" class="img-fluid rounded mx-auto d-block padding"
+            alt="Static Timeline Image" />
+        <div class="buttons text-center">
+            <button type="button" class="btn btn-info btn-secondary btn-outline-primary"
+                data-toggle="collapse" data-target=".map"> Map </button>
+            <button type="button" class="btn btn-info btn-secondary btn-outline-primary"
+                data-toggle="collapse" data-target=".sup"> Commentary </button>
+            <button type="button" class="btn btn-info btn-secondary btn-outline-primary"
+                data-toggle="collapse" data-target=".man"> Manuscript </button>
+            <button type="button" class="btn btn-info btn-secondary btn-outline-primary"
+                data-toggle="collapse" data-target=".trans"> Transcription </button>
+        </div>
         <!--<div class="container">-->
         <h1 class="display-6 padding">Volume 3, Page 218</h1>
         <div class="row padding">
-            <div class="col">
-                <iframe
+            <div class="collapse in col map">
+                <!-- Map Panel -->
+                <iframe class="embed-responsive"
                     src="https://www.google.com/maps/d/embed?mid=1vv9QcIx73HZZSQTJeE2Qw9yjs9b09PkH"
-                    height="565"></iframe>
+                    height="550px"></iframe>
             </div>
-            <div class="col"> </div>
-            <div class="col">
-                <br/>
-                <h3>Related Images</h3>
-                <p><a
-                        href="http://content.library.luc.edu/cdm/singleitem/collection/coll21/id/11/rec/1"
-                        target="_blank">Sketch of Dumbach Hall</a>
-                </p>
-                <p><a
-                        href="https://archive.org/stream/holyfamilyparish00mulk#page/500/mode/2up/search/museum"
-                        target="_blank">Large Mammals Room, Natural History Museum</a>
-                </p>
-                <p><a
-                        href="http://content.library.luc.edu/cdm/compoundobject/collection/coll21/id/220/rec/1"
-                        target="_blank">Mineral Room at the Natural History Museum</a></p>
-                <p><a
-                        href="https://commons.wikimedia.org/wiki/File%3APalace_Of_Fine_Arts--Section_Of_South_Front_%E2%80%94_Official_Views_Of_The_World's_Columbian_Exposition_%E2%80%94_60.jpg"
-                        target="_blank">Historic MSI</a> (Palace of Fine Arts, and then later the
-                        first Field Museum)</p>
-                <h3>Persons Mentioned</h3>
-                <p><a
-                    href="https://archive.org/stream/holyfamilyparish00mulk#page/106/mode/2up/search/museum"
-                    target="_blank">Francis Schulak, S.J.</a></p>
-                <p><a
-                    href="https://www.fieldmuseum.org/about/history/founders-advocates"
-                    target="_blank">Frederick Skiff</a>
-                </p>
+            <div class="collapse in col sup">
+                <!-- Commentary Panel -->
+                <div class="commentary">
+                    <h3>Related Images</h3>
+                    <p><a
+                            href="http://content.library.luc.edu/cdm/singleitem/collection/coll21/id/11/rec/1"
+                            target="_blank">Sketch of Dumbach Hall</a>
+                    </p>
+                    <p><a
+                            href="https://archive.org/stream/holyfamilyparish00mulk#page/500/mode/2up/search/museum"
+                            target="_blank">Large Mammals Room, Natural History Museum</a>
+                    </p>
+                    <p><a
+                            href="http://content.library.luc.edu/cdm/compoundobject/collection/coll21/id/220/rec/1"
+                            target="_blank">Mineral Room at the Natural History Museum</a></p>
+                    <p><a
+                            href="https://commons.wikimedia.org/wiki/File%3APalace_Of_Fine_Arts--Section_Of_South_Front_%E2%80%94_Official_Views_Of_The_World's_Columbian_Exposition_%E2%80%94_60.jpg"
+                            target="_blank">Historic MSI</a> (Palace of Fine Arts, and then later
+                        the first Field Museum)</p>
+                    <h3>Persons Mentioned</h3>
+                    <p><a
+                            href="https://archive.org/stream/holyfamilyparish00mulk#page/106/mode/2up/search/museum"
+                            target="_blank">Francis Schulak, S.J.</a></p>
+                    <p><a href="https://www.fieldmuseum.org/about/history/founders-advocates"
+                            target="_blank">Frederick Skiff</a>
+                    </p>
 
-                <h3>Places Mentioned</h3>
-                <p><a href="http://www.encyclopedia.chicagohistory.org/pages/450.html"
-                        target="_blank">Chicago Field Museum</a></p>
+                    <h3>Places Mentioned</h3>
+                    <p><a href="http://www.encyclopedia.chicagohistory.org/pages/450.html"
+                            target="_blank">Chicago Field Museum</a></p>
 
-                <p><a
-                        href="http://www.lib.luc.edu/specialcollections/exhibits/show/hidden-loyola/east_quad/dumbach"
-                        target="_blank">Loyola Academy</a> (now Dumbach Hall)</p>
-
-
+                    <p><a
+                            href="http://www.lib.luc.edu/specialcollections/exhibits/show/hidden-loyola/east_quad/dumbach"
+                            target="_blank">Loyola Academy</a> (now Dumbach Hall)</p>
+                </div>
             </div>
-            <div class="col">
-                <br/>
-                <div class='embed-responsive' style='padding-bottom:175%'>
-                    <object data='Volume3_Page218.pdf' type='application/pdf' width='100%' height='100%'></object>
+            <div class="collapse.show in col man">
+                <!-- Manuscript Panel -->
+                <br />
+                <div class="embed-responsive" style="padding-bottom:175%">
+                    <object data="Volume3_Page218.pdf" type="application/pdf" height="100%"
+                    ></object>
+                </div>
+            </div>
+            <!--Volume 3, Page 218 was transcribed by Sean Jacobson (referenced in comments as #SJ-->
+            <div class="collapse.show in col trans">
+                <!-- Transcription Panel -->
+                <div class="entries">
+                    <h2>Museum</h2>
+                    <span class="entryLabel"><span class="date" title="1909-01">*</span></span>
+                    <p class="entry"><span class="indent"> </span>There has been a feeling that
+                        <br />since Father Schulak's departure <br />two or three years ago, perhaps
+                        <br />we are not taking proper care <br />of the Museums he collected at
+                            <br />so<del>me</del> much expense and trouble. We <br />found that the
+                        hides of the animals <br />in the Natural History Museum <br />might be
+                        destroyed by insects &amp;c. <br />accordingly it was suggested that
+                        <br />as the responsibility for caring <br />for the museum was so great,
+                        <br />it might be better to sell it, <br />especially as we have great need
+                        of <br />money at the present time for <br />putting up the Academy building
+                        <br />in Rogers Park. <br /><span class="indent"> </span>accordingly we
+                        communicated with <br />Mr. Skiff, the director of the <br />Field Museum,
+                        who was very <br />courteous and offered to send over <br />two of his men
+                        to place a valuation <br />on the museum </p>
+                    <span class="entryLabel">Feb 1 <span class="date" title="1909-02-01"
+                        >*</span></span>
+                    <p class="entry"><span class="indent"> </span>To-day, Monday, Prof. Corey
+                        <br />of the Natural History department, <br />and Dr. Farrington of the
+                        geology <br />department inspected our museum. <br />Dr. Farrington valued
+                        our minerals <br />at $5000, including $500 for the amethyst collection.
+                        <br />Prof Corey valued the mammals <br />at $1700, and the birds <br />at
+                        an average of one dollar <br />each. No valuation was <br />placed on the
+                        shells. <br />
+                        <br /></p>
                 </div>
             </div>
         </div>
-        <!--</div>-->
         <!-- Optional JavaScript -->
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>

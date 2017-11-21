@@ -1,12 +1,78 @@
-.no-gutters {
-  margin-right: 0;
-  margin-left: 0;
+.navbar-xs{
+    min-height: 28px;
+    height: 28px;
 }
-.navbar-xs { min-height:28px; height: 28px; }
-.navbar-xs .navbar-brand{ padding: 0px 12px;font-size: 16px;line-height: 28px; }
-.navbar-xs .navbar-nav > li > a {  padding-top: 0px; padding-bottom: 0px; line-height: 28px; }
-p > a {
+.navbar-xs .navbar-brand{
+    padding: 0px 12px;
+    font-size: 16px;
+    line-height: 28px;
+}
+.navbar-xs .navbar-nav > li > a{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    line-height: 28px;
+}
+p > a{
     color: black;
-    text-decoration:underline
+    text-decoration: underline
 }
-.padding{ padding:10px}
+p > a:hover{
+    color:#3F729B;
+    text-decoration:none;
+    font-weight:bold;
+}
+br{
+    line-height: 50%;
+}
+.padding{
+    padding: 10px;
+    margin: 5px;
+}
+
+.entries{
+    height: 550px;
+    overflow: scroll;
+    overflow-y: scroll;
+}
+/*.commentary{
+    height: 550px;
+    overflow: scroll;
+    overflow-y: scroll;
+}*/
+.entry{
+    margin-left: 15px;
+}
+.entries::-webkit-scrollbar {
+      width: 15px;
+} /* this targets the default scrollbar (compulsory) */
+.entries::-webkit-scrollbar-track {
+      background-color: #4B515D;
+} /* the new scrollbar will have a flat appearance with the set background color */
+ 
+.entries::-webkit-scrollbar-thumb {
+      background-color: #99B3CC; 
+} /* this will style the thumb, ignoring the track */
+ 
+.entries::-webkit-scrollbar-button {
+      background-color: #99B3CC;
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+ 
+.entries::-webkit-scrollbar-corner {
+      background-color: #4B515D;
+} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+.buttons{
+    margin: 0px;
+    padding:0px;
+}
+.btn-info,
+.btn-info:active,
+.btn-info:visited,
+.btn-info:focus {
+    border-color:#4B515D;
+    color:#4B515D;
+}
+.btn-info:hover{
+    background-color:#4B515D;
+    color:#FFFFFF;
+    border-color:white
+}
